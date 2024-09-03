@@ -6,10 +6,10 @@
 /*   By: szhong <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 14:50:50 by szhong            #+#    #+#             */
-/*   Updated: 2024/08/30 19:05:23 by szhong           ###   ########.fr       */
+/*   Updated: 2024/09/03 16:28:03 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
+#include <stdio.h>
 
 int	main(int argc, char *argv[])
 {
@@ -19,7 +19,7 @@ int	main(int argc, char *argv[])
 	if (argc == 4)
 	{
 		while (argv[++i])
-			ft_printf("argv [%d]:\t%s\n", i, argv[i]);
+			printf("argv [%d]:\t%s\n", i, argv[i]);
 	}
 	else
 		return (-1);
