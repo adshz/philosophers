@@ -6,28 +6,30 @@
 #    By: szhong <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/30 14:21:37 by szhong            #+#    #+#              #
-#    Updated: 2024/09/03 16:27:42 by szhong           ###   ########.fr        #
+#    Updated: 2024/09/04 13:00:19 by szhong           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	:=	philo
-SRC_DIR	:=	./src
-OBJ_DIR	:=	./obj
-SRCS	:=	\
-			main.c
-OBJS	:= $(addprefix $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRCS)))
-CC		:= cc
-CFLAGS	:= -Wall -Werror -Wextra
+NAME		:=	philo
+SRC_DIR		:=	./src
+OBJ_DIR		:=	./obj
+SRCS		:=	\
+				main.c
+OBJS		:= $(addprefix $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRCS)))
+CC			:= cc
+CFLAGS		:= -Wall -Werror -Wextra
 INCLUDES	:=	-I ./inc -I ./libft/inc
 MAKEFLAGS	:=	--no-print-directory
+lDFLAGS		:=	-pthread
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@$(CC) $(OBJS) $(LIBS) -o $(NAME)
+	@$(CC) $(LDFLAGS) $(OBJS) $(LIBS) -o $(NAME)
+	@echo "[Philosophers] Build Complete"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	@$(CC) $(CFLAGS) $(INCLUDES) -c $^ -o $@
+	@$(CC) $(CFLAGS) $(INCLUDES) $(LDFLAGS) -c $^ -o $@
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)

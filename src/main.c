@@ -5,23 +5,19 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: szhong <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/30 14:50:50 by szhong            #+#    #+#             */
-/*   Updated: 2024/09/03 16:28:03 by szhong           ###   ########.fr       */
+/*   Created: 2024/09/06 17:17:15 by szhong            #+#    #+#             */
+/*   Updated: 2024/09/06 17:47:20 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include <pthread.h>
 #include <stdio.h>
+#include <sys/time.h>
+#include <unistd.h>
 
 int	main(int argc, char *argv[])
 {
-	int	i;
-
-	i = -1;
-	if (argc == 4)
+	if ( argc == 4)
 	{
-		while (argv[++i])
-			printf("argv [%d]:\t%s\n", i, argv[i]);
+		
 	}
-	else
-		return (-1);
-	return (0);
 }
