@@ -52,3 +52,5 @@ Mkfile.old
 dkms.conf
 phio
 philo
+tags/
+tags
