@@ -6,7 +6,7 @@
 #    By: szhong <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/30 14:21:37 by szhong            #+#    #+#              #
-#    Updated: 2024/09/11 19:36:37 by szhong           ###   ########.fr        #
+#    Updated: 2024/09/12 16:24:29 by szhong           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,11 @@ OBJ_DIR		:=	./obj
 SRCS		:=	\
 				main.c \
 				utils.c \
-				parse.c
+				parse.c \
+				dinning.c \
+				init.c \
+				party_over.c
+
 OBJS		:= $(addprefix $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRCS)))
 CC			:= cc
 CFLAGS		:= -Wall -Werror -Wextra

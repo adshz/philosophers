@@ -6,7 +6,7 @@
 /*   By: szhong <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:17:15 by szhong            #+#    #+#             */
-/*   Updated: 2024/09/11 19:44:40 by szhong           ###   ########.fr       */
+/*   Updated: 2024/09/12 20:25:00 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -15,19 +15,13 @@ int	main(int argc, char *argv[])
 {
 	t_table	*table;
 
-	if ( argc == 5 || argc == 6)
+	if (argc == 5 || argc == 6)
 	{
-		// 1. parse values
-		table = malloc(sizeof(t_table));
-		if (table == NULL)
-			return (-1);
+		table = malloc_helper(sizeof(t_table));
 		parse_data(table, argv);
-		// 2. initialisation
-	//	init_data();
-		// 3. dinner
-	//	dinner_start();
-		// 4. clean up // when a philosopher dies or all philosophers are full
-	//	dinner_end();
+		init_data(table);
+		dinning_start(table);
+		dinning_end(table);
 	}
 	else
 		error_handler("ERROR:Wrong Command Line Inputs\n"\

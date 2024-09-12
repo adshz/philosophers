@@ -6,12 +6,12 @@
 /*   By: szhong <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 20:45:41 by szhong            #+#    #+#             */
-/*   Updated: 2024/09/11 21:00:16 by szhong           ###   ########.fr       */
+/*   Updated: 2024/09/12 21:10:45 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
 
-static void assign_forks(t_philo *philo, t_fork *fork, int philo_pos)
+static void assign_forks(t_philo *philo, t_fork *forks, int philo_pos)
 {
 	int	philo_nbr;
 
@@ -23,11 +23,10 @@ static void assign_forks(t_philo *philo, t_fork *fork, int philo_pos)
 		philo->first_fork = &forks[philo_pos];
 		philo->second_fork = &forks[(philo_pos + 1) % philo_nbr];
 	}
-
-
+	return ;
 }
 
-static philo_init(t_table *table)
+static void philo_init(t_table *table)
 {
 	int		i;
 	t_philo	*philo;
@@ -42,6 +41,7 @@ static philo_init(t_table *table)
 		philo->table = table;
 		assign_forks(philo, table->forks, i);
 	}
+	return ;
 }
 
 void	init_data(t_table *table)
@@ -50,13 +50,14 @@ void	init_data(t_table *table)
 	
 	i = -1;
 	table->end_dinning = false;
-	table->philos = malloc_helper(sizeof(t_table) * table->philos_nbr);
-	table->forks = malloc_helper(sizeof(t_fork) * table->philos_nbr);
+	table->philos = malloc_helper(sizeof(t_table) * table->philo_nbr);
+	table->forks = malloc_helper(sizeof(t_fork) * table->philo_nbr);
+	mutex_helper(&table->end_dinning_mutex, INIT);
 	while (++i < table->philo_nbr)
 	{
-		mutex_helper(table->forks[i].fork, INIT);
+		mutex_helper(&table->forks[i].fork, INIT);
 		table->forks[i].id_fork = i;
 	}
 	philo_init(table);
+	return ;
 }
-

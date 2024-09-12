@@ -6,7 +6,7 @@
 /*   By: szhong <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 12:19:27 by szhong            #+#    #+#             */
-/*   Updated: 2024/09/11 21:00:48 by szhong           ###   ########.fr       */
+/*   Updated: 2024/09/12 21:09:10 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -14,9 +14,10 @@
 # include <pthread.h>
 # include <stdio.h>
 # include <sys/time.h>
+# include <unistd.h>
 # include <stdlib.h>
 # include <stdbool.h>
-# include <error.h>
+# include <errno.h>
 
 # define DF "\033[0m" // Default colour
 # define R  "\033[1;31m" // Bold red
@@ -49,6 +50,7 @@ typedef enum mutex_code
 
 typedef struct s_philo
 {
+	int			meals_counter;
 	int			philo_id;
 	pthread_t	thread_id;
 	bool		all_full;
@@ -67,13 +69,18 @@ struct s_table
 	long	start_dinning;
 	bool	end_dinning;
 	long	num_meals_per_philo;
+	t_mutex	end_dinning_mutex;
 	t_philo	*philos;
 	t_fork	*forks;
 };
 
-// utils.c
 void	error_handler(const char *error_msg);
+void	init_data(t_table *table);
 void	parse_data(t_table *t, char *argv[]);
+void	*malloc_helper(size_t bytes);
 void	mutex_helper(t_mutex *mutex, t_mutex_code code);
-
+void	dinning_start(t_table *table);
+long	get_time(void);
+void	dinning_end(t_table *table);
+void    destroy_all(const char *str, t_table *table);
 #endif
