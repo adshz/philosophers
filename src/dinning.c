@@ -6,7 +6,7 @@
 /*   By: szhong <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 12:35:05 by szhong            #+#    #+#             */
-/*   Updated: 2024/09/12 21:10:20 by szhong           ###   ########.fr       */
+/*   Updated: 2024/09/13 17:02:51 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -36,6 +36,7 @@ static void	philo_sleep(t_philo *philo, long ms)
 
 static int	eat(t_philo *philo)
 {
+	printf("Philosopher %d trying to eat at %ld\n", philo->philo_id, get_time() - philo->table->start_dinning);
 	if (dead_loop(philo->table))
 		return (1);
 	mutex_helper(&philo->first_fork->fork, LOCK);
@@ -84,14 +85,16 @@ void	*philo_routine(void *pointer)
 	t_philo	*philo;
 
 	philo = (t_philo *)pointer;
+	printf("Philosopher %d starting at %ld\n", philo->philo_id, get_time() - philo->table->start_dinning);
 	if (philo->philo_id % 2 == 0)
-		usleep(1000);
+		usleep(15000);
 	while (!dead_loop(philo->table))
 	{
 		if(eat(philo))
 			break ;
 		if (dream(philo))
 			break ;
+		usleep(philo->philo_id * 1000);
 		if (think(philo))
 			break ;
 	}
@@ -139,6 +142,7 @@ void	*monitor(void *arg)
 	t_table *table;
 
 	table = (t_table *)arg;
+	printf("Monitor starting at %ld\n", get_time() - table->start_dinning);
 	while (1)
 	{
 		i = 0;
@@ -166,24 +170,21 @@ void	dinning_start(t_table *table)
 	int			i;
 
 	table->start_dinning = get_time();
-	if (pthread_create(&observer, NULL, &monitor, table) != 0)
-		destroy_all("Thread creation error", table);
-	i = 0;
-	while (i < table->philo_nbr)
+	i = -1;
+	while (++i < table->philo_nbr)
 	{
 		table->philos[i].last_meal_time = table->start_dinning;
 		if (pthread_create(&table->philos[i].thread_id, NULL, &philo_routine,
 				&table->philos[i]) != 0)
 			destroy_all("Thread creation error", table);
-		i++;
 	}
-	pthread_join(observer, NULL);
-	i = 0;
-	while (i < table->philo_nbr)
-	{
+	usleep(10000);
+	if (pthread_create(&observer, NULL, &monitor, table) != 0)
+		destroy_all("Thread creation error", table);
+	i = -1;
+	while (++i < table->philo_nbr)
 		pthread_join(table->philos[i].thread_id, NULL);
-		i++;
-	}
+	pthread_join(observer, NULL);
 	return ;
 }
 //

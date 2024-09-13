@@ -6,10 +6,17 @@
 /*   By: szhong <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:17:15 by szhong            #+#    #+#             */
-/*   Updated: 2024/09/12 20:25:00 by szhong           ###   ########.fr       */
+/*   Updated: 2024/09/12 21:21:10 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
+
+void handle_single_philosopher(t_table *table)
+{
+    printf("%ld 1 has taken a fork\n", 0L);
+    usleep(table->time_to_die * 1000);
+    printf("%ld 1 died\n", table->time_to_die);
+}
 
 int	main(int argc, char *argv[])
 {
@@ -20,7 +27,10 @@ int	main(int argc, char *argv[])
 		table = malloc_helper(sizeof(t_table));
 		parse_data(table, argv);
 		init_data(table);
-		dinning_start(table);
+		if (table->philo_nbr == 1)
+			handle_single_philosopher(table);
+		else
+			dinning_start(table);
 		dinning_end(table);
 	}
 	else
@@ -28,4 +38,5 @@ int	main(int argc, char *argv[])
 				Y"Usage:\t./philo [num_of_phliosophers] "\
 				"[time_to_die] [time_to_eat] [time_to_sleep] "\
 				"[OPTIONAL - num of meals per philosophers]"DF);
+	return (0);
 }
