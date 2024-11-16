@@ -6,14 +6,14 @@
 /*   By: szhong <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:32:17 by szhong            #+#    #+#             */
-/*   Updated: 2024/09/12 16:04:33 by szhong           ###   ########.fr       */
+/*   Updated: 2024/11/16 21:40:30 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
 
 long	get_time(void)
 {
-	struct timeval time_value;
+	struct timeval	time_value;
 
 	if (gettimeofday(&time_value, NULL) == -1)
 		error_handler("ERROR: gettimeofday()");
@@ -39,7 +39,7 @@ static void	mutex_error_handler(int status, t_mutex_code code, t_mutex *mutex)
 		if (code == INIT)
 		{
 			pthread_mutex_destroy(mutex);
-			error_handler( "The value specified by attr is invalid");
+			error_handler("The value specified by attr is invalid");
 		}
 		else if (code == LOCK || code == UNLOCK)
 			error_handler("Mutex lock/unlock failure");

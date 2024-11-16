@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: szhong <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/11 18:57:36 by szhong            #+#    #+#             */
-/*   Updated: 2024/09/12 16:36:41 by szhong           ###   ########.fr       */
-/*                                                                            */
+/*																			  */
+/*														  :::	   ::::::::   */
+/*	 parse.c											:+:		 :+:	:+:   */
+/*													  +:+ +:+		  +:+	  */
+/*	 By: szhong <marvin@42.fr>						+#+  +:+	   +#+		  */
+/*												  +#+#+#+#+#+	+#+			  */
+/*	 Created: 2024/09/11 18:57:36 by szhong			   #+#	  #+#			  */
+/*	 Updated: 2024/11/16 21:43:31 by szhong			  ###	########.fr		  */
+/*																			  */
 /* ************************************************************************** */
 #include "philo.h"
 
@@ -48,7 +48,7 @@ void	parse_data(t_table *table, char *argv[])
 	if (table->philo_nbr <= 0 || table->philo_nbr > 200)
 		error_handler("Invalid number of philosophers"\
 				Y"\nRange of philosophers: 0 < x < 200\n"DF);
-	if (table->time_to_die < 60 ||\
+	if (table->time_to_die < 60 || \
 			table->time_to_eat < 60 || table->time_to_eat < 60)
 		error_handler("Time is longer than 60ms");
 	if (argv[5])
@@ -59,5 +59,5 @@ void	parse_data(t_table *table, char *argv[])
 					Y"\nInput positive numbers\n"DF);
 	}
 	else
-		table->num_meals_per_philo	= -1;
+		table->num_meals_per_philo = -1;
 }

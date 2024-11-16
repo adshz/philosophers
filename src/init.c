@@ -6,12 +6,12 @@
 /*   By: szhong <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 20:45:41 by szhong            #+#    #+#             */
-/*   Updated: 2024/09/13 14:41:12 by szhong           ###   ########.fr       */
+/*   Updated: 2024/11/16 21:41:08 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
 
-static void assign_forks(t_philo *philo, t_fork *forks, int philo_pos)
+static void	assign_forks(t_philo *philo, t_fork *forks, int philo_pos)
 {
 	int	philo_nbr;
 
@@ -26,7 +26,7 @@ static void assign_forks(t_philo *philo, t_fork *forks, int philo_pos)
 	return ;
 }
 
-static void philo_init(t_table *table)
+static void	philo_init(t_table *table)
 {
 	int		i;
 	t_philo	*philo;
@@ -47,12 +47,14 @@ static void philo_init(t_table *table)
 void	init_data(t_table *table)
 {
 	int	i;
-	
+
 	i = -1;
 	table->end_dinning = false;
-	table->philos = malloc_helper(sizeof(t_table) * table->philo_nbr);
+	table->philos = malloc_helper(sizeof(t_philo) * table->philo_nbr);
 	table->forks = malloc_helper(sizeof(t_fork) * table->philo_nbr);
 	mutex_helper(&table->end_dinning_mutex, INIT);
+	mutex_helper(&table->meal_time_mutex, INIT);
+	mutex_helper(&table->meals_mutex, INIT);
 	while (++i < table->philo_nbr)
 	{
 		mutex_helper(&table->forks[i].fork, INIT);

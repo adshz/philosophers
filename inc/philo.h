@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: szhong <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/11 12:19:27 by szhong            #+#    #+#             */
-/*   Updated: 2024/09/12 21:09:10 by szhong           ###   ########.fr       */
-/*                                                                            */
+/*																			  */
+/*														  :::	   ::::::::   */
+/*	 philo.h											:+:		 :+:	:+:   */
+/*													  +:+ +:+		  +:+	  */
+/*	 By: szhong <marvin@42.fr>						+#+  +:+	   +#+		  */
+/*												  +#+#+#+#+#+	+#+			  */
+/*	 Created: 2024/09/11 12:19:27 by szhong			   #+#	  #+#			  */
+/*	 Updated: 2024/11/16 21:38:43 by szhong			  ###	########.fr		  */
+/*																			  */
 /* ************************************************************************** */
 #ifndef PHILO_H
 # define PHILO_H
@@ -20,13 +20,13 @@
 # include <errno.h>
 
 # define DF "\033[0m" // Default colour
-# define R  "\033[1;31m" // Bold red
-# define G  "\033[1;32m" // Bold green
-# define Y  "\033[1;33m" // Bold yellow
-# define B  "\033[1;34m" // Bold blue
-# define M  "\033[1;35m" // Bold magenta
-# define C  "\033[1;36m" // Bold cyan
-# define W  "\033[1;37m" // Bold white
+# define R	"\033[1;31m" // Bold red
+# define G	"\033[1;32m" // Bold green
+# define Y	"\033[1;33m" // Bold yellow
+# define B	"\033[1;34m" // Bold blue
+# define M	"\033[1;35m" // Bold magenta
+# define C	"\033[1;36m" // Bold cyan
+# define W	"\033[1;37m" // Bold white
 
 typedef pthread_mutex_t	t_mutex;
 typedef struct s_table	t_table;
@@ -70,6 +70,8 @@ struct s_table
 	bool	end_dinning;
 	long	num_meals_per_philo;
 	t_mutex	end_dinning_mutex;
+	t_mutex	meal_time_mutex;
+	t_mutex	meals_mutex;
 	t_philo	*philos;
 	t_fork	*forks;
 };
@@ -78,9 +80,15 @@ void	error_handler(const char *error_msg);
 void	init_data(t_table *table);
 void	parse_data(t_table *t, char *argv[]);
 void	*malloc_helper(size_t bytes);
+void	*philo_routine(void *pointer);
+void	philo_sleep(t_philo *philo, long ms);
+void	cleanup_threads(t_table *table, pthread_t observer, \
+		int created_threads);
+int		dead_loop(t_table *table);
+void	*monitor(void *arg);
 void	mutex_helper(t_mutex *mutex, t_mutex_code code);
 void	dinning_start(t_table *table);
 long	get_time(void);
 void	dinning_end(t_table *table);
-void    destroy_all(const char *str, t_table *table);
+void	destroy_all(const char *str, t_table *table);
 #endif

@@ -6,16 +6,16 @@
 /*   By: szhong <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:17:15 by szhong            #+#    #+#             */
-/*   Updated: 2024/09/12 21:21:10 by szhong           ###   ########.fr       */
+/*   Updated: 2024/11/16 19:39:41 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
 
-void handle_single_philosopher(t_table *table)
+void	handle_single_philosopher(t_table *table)
 {
-    printf("%ld 1 has taken a fork\n", 0L);
-    usleep(table->time_to_die * 1000);
-    printf("%ld 1 died\n", table->time_to_die);
+	printf("%ld 1 has taken a fork\n", 0L);
+	usleep(table->time_to_die * 1000);
+	printf("%ld 1 died\n", table->time_to_die);
 }
 
 int	main(int argc, char *argv[])
