@@ -72,6 +72,7 @@ struct s_table
 	t_mutex	end_dinning_mutex;
 	t_mutex	meal_time_mutex;
 	t_mutex	meals_mutex;
+	t_mutex	write_mutex;
 	t_philo	*philos;
 	t_fork	*forks;
 };
@@ -84,6 +85,8 @@ void	*philo_routine(void *pointer);
 void	philo_sleep(t_philo *philo, long ms);
 void	cleanup_threads(t_table *table, pthread_t observer, \
 		int created_threads);
+void	print_status(t_philo *philo, long time_diff, int id, \
+				  const char *msg);
 int		dead_loop(t_table *table);
 void	*monitor(void *arg);
 void	mutex_helper(t_mutex *mutex, t_mutex_code code);

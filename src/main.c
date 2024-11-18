@@ -11,6 +11,14 @@
 /* ************************************************************************** */
 #include "philo.h"
 
+void	print_status(t_philo *philo, long time_diff, int id, const char *msg)
+{
+	mutex_helper(&philo->table->write_mutex, LOCK);
+	if (!dead_loop(philo->table))
+		printf("%ld %d %s\n", time_diff, id, msg);
+	mutex_helper(&philo->table->write_mutex, UNLOCK);
+}
+
 void	handle_single_philosopher(t_table *table)
 {
 	printf("%ld 1 has taken a fork\n", 0L);
@@ -34,7 +42,7 @@ int	main(int argc, char *argv[])
 		dinning_end(table);
 	}
 	else
-		error_handler("ERROR:Wrong Command Line Inputs\n"\
+		error_handler(R"ERROR:Wrong Command Line Inputs\n"\
 				Y"Usage:\t./philo [num_of_phliosophers] "\
 				"[time_to_die] [time_to_eat] [time_to_sleep] "\
 				"[OPTIONAL - num of meals per philosophers]"DF);

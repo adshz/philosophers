@@ -55,6 +55,7 @@ void	init_data(t_table *table)
 	mutex_helper(&table->end_dinning_mutex, INIT);
 	mutex_helper(&table->meal_time_mutex, INIT);
 	mutex_helper(&table->meals_mutex, INIT);
+	mutex_helper(&table->write_mutex, INIT);
 	while (++i < table->philo_nbr)
 	{
 		mutex_helper(&table->forks[i].fork, INIT);

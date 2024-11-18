@@ -45,10 +45,16 @@ static int	check_philosopher_death(t_table *table, int i)
 		if (!table->end_dinning)
 		{
 			table->end_dinning = true;
-			printf("%ld %d died\n", current_time - table->start_dinning, \
-		table->philos[i].philo_id);
+			//printf("%ld %d died\n", current_time - table->start_dinning, 
+		//table->philos[i].philo_id);
+			mutex_helper(&table->write_mutex, LOCK);
+			printf("%ld %d died\n", 
+				current_time - table->start_dinning, 
+				table->philos[i].philo_id);
+			mutex_helper(&table->write_mutex, UNLOCK);
 		}
 		mutex_helper(&table->end_dinning_mutex, UNLOCK);
+
 		return (1);
 	}
 	return (0);
