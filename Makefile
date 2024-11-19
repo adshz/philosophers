@@ -9,6 +9,14 @@
 #    Updated: 2024/09/12 16:24:29 by szhong           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+DF :=	\033[0m
+R  :=	\033[1;31m
+G  :=	\033[1;32m
+Y  :=	\033[1;33m
+B  :=	\033[1;34m
+M  :=	\033[1;35m
+C  :=	\033[1;36m
+W  :=	\033[1;37m
 
 NAME		:=	philo
 SRC_DIR		:=	./src
@@ -19,7 +27,8 @@ SRCS		:=	\
 				parse.c \
 				dinning.c \
 				init.c \
-				party_over.c
+				party_over.c \
+				action.c
 
 OBJS		:= $(addprefix $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRCS)))
 CC			:= cc
@@ -32,7 +41,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@$(CC) $(LDFLAGS) $(OBJS) $(LIBS) -o $(NAME)
-	@echo "[Philosophers] Build Complete"
+	@echo "${G}[Philosophers] Build Complete${DF}"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) $(INCLUDES) $(LDFLAGS) -c $^ -o $@
@@ -42,11 +51,12 @@ $(OBJ_DIR):
 
 clean:
 	@rm -rf $(OBJ_DIR)
-	@echo "[Philosophers] Objects Removed"
+	@echo "${C}[Philosophers] Objects Removed${DF}"
 
 fclean: clean
 	@rm -rf $(NAME)
-	@echo "[Philosophers] $(NAME) Removed"
+	@echo "${C}[Philosophers] $(NAME) Removed${DF}"
+	@echo "${Y}====== Project Reset ======${DF}"
 
 re: fclean all
 

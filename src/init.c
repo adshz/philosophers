@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "philo.h"
 
-static void assign_forks(t_philo *philo, t_fork *forks, int philo_pos)
+static void	assign_forks(t_philo *philo, t_fork *forks, int philo_pos)
 {
 	int	philo_nbr;
 
@@ -26,7 +26,7 @@ static void assign_forks(t_philo *philo, t_fork *forks, int philo_pos)
 	return ;
 }
 
-static void philo_init(t_table *table)
+static void	philo_init(t_table *table)
 {
 	int		i;
 	t_philo	*philo;
@@ -47,7 +47,7 @@ static void philo_init(t_table *table)
 void	init_data(t_table *table)
 {
 	int	i;
-	
+
 	i = -1;
 	table->end_dinning = false;
 	table->philos = malloc_helper(sizeof(t_table) * table->philo_nbr);

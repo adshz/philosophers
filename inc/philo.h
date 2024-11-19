@@ -76,13 +76,19 @@ struct s_table
 };
 
 void	error_handler(const char *error_msg);
-void print_status(t_table *table, int philo_id, char *status);
+void	print_status(t_table *table, int philo_id, char *status);
+int		dead_loop(t_table *table);
+void	*monitor(void *arg);
 void	init_data(t_table *table);
 void	parse_data(t_table *t, char *argv[]);
 void	*malloc_helper(size_t bytes);
 void	mutex_helper(t_mutex *mutex, t_mutex_code code);
 void	dinning_start(t_table *table);
 long	get_time(void);
+int		think(t_philo *philo);
+int		dream(t_philo *philo);
+int		eat(t_philo *philo);
+void	philo_sleep(t_philo *philo, long ms);
 void	dinning_end(t_table *table);
 void    destroy_all(const char *str, t_table *table);
 #endif

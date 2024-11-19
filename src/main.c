@@ -11,25 +11,25 @@
 /* ************************************************************************** */
 #include "philo.h"
 
-void    print_status(t_table *table, int philo_id, char *status)
+void	print_status(t_table *table, int philo_id, char *status)
 {
 	long	current_time;
 
 	current_time = 0;
-    mutex_helper(&table->print_mutex, LOCK);
-    if (!table->end_dinning)
-	{    
-        current_time = get_time() - table->start_dinning;
-        printf("%ld %d %s\n", current_time, philo_id, status);
-    }
-    mutex_helper(&table->print_mutex, UNLOCK);
+	mutex_helper(&table->print_mutex, LOCK);
+	if (!table->end_dinning)
+	{
+		current_time = get_time() - table->start_dinning;
+		printf("%ld %d %s\n", current_time, philo_id, status);
+	}
+	mutex_helper(&table->print_mutex, UNLOCK);
 }
 
-void handle_single_philosopher(t_table *table)
+void	handle_single_philosopher(t_table *table)
 {
-    printf("%ld 1 has taken a fork\n", 0L);
-    usleep(table->time_to_die * 1000);
-    printf("%ld 1 died\n", table->time_to_die);
+	printf("%ld 1 has taken a fork\n", 0L);
+	usleep(table->time_to_die * 1000);
+	printf("%ld 1 died\n", table->time_to_die);
 }
 
 int	main(int argc, char *argv[])
