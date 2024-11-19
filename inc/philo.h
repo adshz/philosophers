@@ -70,11 +70,13 @@ struct s_table
 	bool	end_dinning;
 	long	num_meals_per_philo;
 	t_mutex	end_dinning_mutex;
+	t_mutex	print_mutex;
 	t_philo	*philos;
 	t_fork	*forks;
 };
 
 void	error_handler(const char *error_msg);
+void print_status(t_table *table, int philo_id, char *status);
 void	init_data(t_table *table);
 void	parse_data(t_table *t, char *argv[]);
 void	*malloc_helper(size_t bytes);

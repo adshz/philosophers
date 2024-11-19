@@ -36,30 +36,49 @@ static void	philo_sleep(t_philo *philo, long ms)
 
 static int	eat(t_philo *philo)
 {
-	printf("Philosopher %d trying to eat at %ld\n", philo->philo_id, get_time() - philo->table->start_dinning);
 	if (dead_loop(philo->table))
 		return (1);
-	mutex_helper(&philo->first_fork->fork, LOCK);
-	if (dead_loop(philo->table))
+	
+	// Even philosophers take forks in opposite order to prevent deadlock
+	if (philo->philo_id % 2 == 0)
 	{
-		mutex_helper(&philo->first_fork->fork, UNLOCK);
-		return (1);
+		mutex_helper(&philo->second_fork->fork, LOCK);
+		mutex_helper(&philo->first_fork->fork, LOCK);
 	}
-	printf("%ld %d has taken a fork\n", get_time() - philo->table->start_dinning, philo->philo_id);
-	mutex_helper(&philo->second_fork->fork, LOCK);
+	else
+	{
+		mutex_helper(&philo->first_fork->fork, LOCK);
+		mutex_helper(&philo->second_fork->fork, LOCK);
+	}
+	
 	if (dead_loop(philo->table))
 	{
 		mutex_helper(&philo->first_fork->fork, UNLOCK);
 		mutex_helper(&philo->second_fork->fork, UNLOCK);
 		return (1);
 	}
-	printf("%ld %d has taken a fork\n", get_time() - philo->table->start_dinning, philo->philo_id);
+	
+	print_status(philo->table, philo->philo_id, "has taken a fork");
+	print_status(philo->table, philo->philo_id, "has taken a fork");
+	
+	// Update last_meal_time before starting to eat
 	philo->last_meal_time = get_time();
-	printf("%ld %d is eating\n", philo->last_meal_time - philo->table->start_dinning, philo->philo_id);
+	print_status(philo->table, philo->philo_id, "is eating");
 	philo_sleep(philo, philo->table->time_to_eat);
 	philo->meals_counter++;
-	mutex_helper(&philo->first_fork->fork, UNLOCK);
-	mutex_helper(&philo->second_fork->fork, UNLOCK);
+	
+	// Release forks in reverse order of acquisition
+	if (philo->philo_id % 2 == 0)
+	{
+		mutex_helper(&philo->first_fork->fork, UNLOCK);
+		mutex_helper(&philo->second_fork->fork, UNLOCK);
+	}
+	else
+	{
+		mutex_helper(&philo->second_fork->fork, UNLOCK);
+		mutex_helper(&philo->first_fork->fork, UNLOCK);
+	}
+	
 	return (0);
 }
 
@@ -85,18 +104,28 @@ void	*philo_routine(void *pointer)
 	t_philo	*philo;
 
 	philo = (t_philo *)pointer;
-	printf("Philosopher %d starting at %ld\n", philo->philo_id, get_time() - philo->table->start_dinning);
+	
+	// Stagger the start times more effectively
 	if (philo->philo_id % 2 == 0)
-		usleep(15000);
+		usleep(1000); // Just a tiny delay for even philosophers
+	
 	while (!dead_loop(philo->table))
 	{
-		if(eat(philo))
-			break ;
+		// Try to eat
+		if (eat(philo))
+			break;
+		
+		// After eating, sleep
 		if (dream(philo))
-			break ;
-		usleep(philo->philo_id * 1000);
+			break;
+		
+		// Think for a short time before trying to eat again
 		if (think(philo))
-			break ;
+			break;
+		
+		// Add a small delay based on the number of philosophers
+		// This helps prevent thundering herd problem
+		usleep(500);
 	}
 	return (pointer);
 }
@@ -142,7 +171,6 @@ void	*monitor(void *arg)
 	t_table *table;
 
 	table = (t_table *)arg;
-	printf("Monitor starting at %ld\n", get_time() - table->start_dinning);
 	while (1)
 	{
 		i = 0;
@@ -178,7 +206,6 @@ void	dinning_start(t_table *table)
 				&table->philos[i]) != 0)
 			destroy_all("Thread creation error", table);
 	}
-	usleep(10000);
 	if (pthread_create(&observer, NULL, &monitor, table) != 0)
 		destroy_all("Thread creation error", table);
 	i = -1;

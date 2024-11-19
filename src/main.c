@@ -11,6 +11,20 @@
 /* ************************************************************************** */
 #include "philo.h"
 
+void    print_status(t_table *table, int philo_id, char *status)
+{
+	long	current_time;
+
+	current_time = 0;
+    mutex_helper(&table->print_mutex, LOCK);
+    if (!table->end_dinning)
+	{    
+        current_time = get_time() - table->start_dinning;
+        printf("%ld %d %s\n", current_time, philo_id, status);
+    }
+    mutex_helper(&table->print_mutex, UNLOCK);
+}
+
 void handle_single_philosopher(t_table *table)
 {
     printf("%ld 1 has taken a fork\n", 0L);

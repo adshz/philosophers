@@ -53,6 +53,7 @@ void	init_data(t_table *table)
 	table->philos = malloc_helper(sizeof(t_table) * table->philo_nbr);
 	table->forks = malloc_helper(sizeof(t_fork) * table->philo_nbr);
 	mutex_helper(&table->end_dinning_mutex, INIT);
+	mutex_helper(&table->print_mutex, INIT);
 	while (++i < table->philo_nbr)
 	{
 		mutex_helper(&table->forks[i].fork, INIT);
