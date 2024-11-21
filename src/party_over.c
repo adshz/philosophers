@@ -11,23 +11,24 @@
 /* ************************************************************************** */
 #include "philo.h"
 
+// for debug
+//printf("DBG: Philo %d died at %ld (last meal: %ld, diff: %ld)\n", 
+	//i + 1, current_time - table->start_dinning, 
+	//table->philos[i].last_meal_time - table->start_dinning,
+	//time_since_last_meal);
 static int	check_philosopher_death(t_table *table, int i)
 {
-	long	current_time;
+    long	current_time;
+    long    time_since_last_meal;
 
-	current_time = get_time();
-	if (current_time - table->philos[i].last_meal_time > table->time_to_die)
-	{
-		mutex_helper(&table->end_dinning_mutex, LOCK);
-		if (!table->end_dinning)
-		{
-			table->end_dinning = true;
-			print_status(table, table->philos[i].philo_id, "died");
-		}
-		mutex_helper(&table->end_dinning_mutex, UNLOCK);
-		return (1);
-	}
-	return (0);
+    current_time = get_time();
+    mutex_helper(&table->meal_mutex, LOCK);
+    time_since_last_meal = current_time - table->philos[i].last_meal_time;
+    mutex_helper(&table->meal_mutex, UNLOCK);
+
+    if (time_since_last_meal > table->time_to_die)
+        return (1);
+    return (0);
 }
 
 static int	check_all_philosophers_full(t_table *table)
@@ -58,18 +59,24 @@ void	*monitor(void *arg)
 		while (i < table->philo_nbr)
 		{
 			if (check_philosopher_death(table, i))
+			{
+				mutex_helper(&table->end_dinning_mutex, LOCK);
+				table->end_dinning = true;
+				mutex_helper(&table->end_dinning_mutex, UNLOCK);
+				print_status(table, i + 1, "died");
 				return (NULL);
+			}
 			i++;
 		}
 		if (check_all_philosophers_full(table))
 		{
 			mutex_helper(&table->end_dinning_mutex, LOCK);
-			table->end_dinning = true;
-			printf(M"All philosophers have eaten enough.\n"DF);
-			mutex_helper(&table->end_dinning_mutex, UNLOCK);
-			return (NULL);
+				table->end_dinning = true;
+				printf(M"All philosophers have eaten enough.\n"DF);
+				mutex_helper(&table->end_dinning_mutex, UNLOCK);
+				return (NULL);
 		}
-		usleep(1000);
+		usleep(100);
 	}
 }
 

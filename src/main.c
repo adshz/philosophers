@@ -11,13 +11,31 @@
 /* ************************************************************************** */
 #include "philo.h"
 
+static int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+	int		result;
+
+	i = 0;
+	while ((*(s1 + i) || *(s2 + i)) && i < n)
+	{
+		if (*(s1 + i) != *(s2 + i))
+		{
+			result = *((unsigned char *)s1 + i) - *((unsigned char *)s2 + i);
+			return (result);
+		}
+		i++;
+	}
+	return (0);
+}
+
 void	print_status(t_table *table, int philo_id, char *status)
 {
 	long	current_time;
 
 	current_time = 0;
 	mutex_helper(&table->print_mutex, LOCK);
-	if (!table->end_dinning)
+	if (!table->end_dinning || ft_strncmp(status, "died", 4) == 0)
 	{
 		current_time = get_time() - table->start_dinning;
 		printf("%ld %d %s\n", current_time, philo_id, status);

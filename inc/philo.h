@@ -71,6 +71,7 @@ struct s_table
 	long	num_meals_per_philo;
 	t_mutex	end_dinning_mutex;
 	t_mutex	print_mutex;
+	t_mutex	meal_mutex;
 	t_philo	*philos;
 	t_fork	*forks;
 };
@@ -84,7 +85,7 @@ void	parse_data(t_table *t, char *argv[]);
 void	*malloc_helper(size_t bytes);
 void	mutex_helper(t_mutex *mutex, t_mutex_code code);
 void	dinning_start(t_table *table);
-void	update_meal_status(t_philo *philo);
+void	update_meal_status(t_philo *philo, long start_eating_time);
 void	fork_distrib(t_philo *philo, t_mutex_code code );
 void	release_forks(t_philo *philo);
 void	pick_forks(t_philo *philo);

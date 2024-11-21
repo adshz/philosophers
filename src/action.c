@@ -11,6 +11,15 @@
 /* ************************************************************************** */
 #include "philo.h"
 
+void	update_meal_status(t_philo *philo, long start_eating_time)
+{
+	mutex_helper(&philo->table->meal_mutex, LOCK);
+	philo->last_meal_time = start_eating_time;
+	philo->meals_counter++;
+	mutex_helper(&philo->table->meal_mutex, UNLOCK);
+	return ;
+}
+
 void	philo_sleep(t_philo *philo, long ms)
 {
 	long	start;
@@ -26,6 +35,8 @@ void	philo_sleep(t_philo *philo, long ms)
 
 int	eat(t_philo *philo)
 {
+	long start_eating_time;
+
 	if (dead_loop(philo->table))
 		return (1);
 	fork_distrib(philo, LOCK);
@@ -36,9 +47,10 @@ int	eat(t_philo *philo)
 	}
 	print_status(philo->table, philo->philo_id, "has taken a fork");
 	print_status(philo->table, philo->philo_id, "has taken a fork");
-	update_meal_status(philo);
+	start_eating_time = get_time();
 	print_status(philo->table, philo->philo_id, "is eating");
 	philo_sleep(philo, philo->table->time_to_eat);
+	update_meal_status(philo, start_eating_time);
 	fork_distrib(philo, UNLOCK);
 	return (0);
 }

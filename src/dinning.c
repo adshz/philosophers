@@ -55,6 +55,7 @@ void	dinning_start(t_table *table)
 				&table->philos[i]) != 0)
 			destroy_all("Thread creation error", table);
 	}
+	usleep(100);
 	if (pthread_create(&observer, NULL, &monitor, table) != 0)
 		destroy_all("Thread creation error", table);
 	i = -1;
