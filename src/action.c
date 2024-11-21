@@ -6,7 +6,7 @@
 /*   By: szhong <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 18:21:08 by szhong            #+#    #+#             */
-/*   Updated: 2024/11/21 11:54:37 by szhong           ###   ########.fr       */
+/*   Updated: 2024/11/21 14:11:03 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -35,7 +35,7 @@ void	philo_sleep(t_philo *philo, long ms)
 
 int	eat(t_philo *philo)
 {
-	long start_eating_time;
+	long	start_eating_time;
 
 	if (dead_loop(philo->table))
 		return (1);

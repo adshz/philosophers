@@ -29,7 +29,8 @@ SRCS		:=	\
 				init.c \
 				party_over.c \
 				action.c \
-				forks.c
+				forks.c \
+				monitor.c
 
 OBJS		:= $(addprefix $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRCS)))
 CC			:= cc

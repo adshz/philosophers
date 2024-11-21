@@ -6,7 +6,7 @@
 /*   By: szhong <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 12:19:27 by szhong            #+#    #+#             */
-/*   Updated: 2024/09/12 21:09:10 by szhong           ###   ########.fr       */
+/*   Updated: 2024/11/21 14:26:06 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -91,10 +91,14 @@ void	fork_distrib(t_philo *philo, t_mutex_code code );
 void	release_forks(t_philo *philo);
 void	pick_forks(t_philo *philo);
 long	get_time(void);
+int		check_philosopher_death(t_table *table, int i);
+int		check_all_philosophers_full(t_table *table);
+int		announce_death(t_table *table, int philo_nbr);
+int		full_exit(t_table *table);
 int		think(t_philo *philo);
 int		dream(t_philo *philo);
 int		eat(t_philo *philo);
 void	philo_sleep(t_philo *philo, long ms);
 void	dinning_end(t_table *table);
-void    destroy_all(const char *str, t_table *table);
+void	destroy_all(const char *str, t_table *table);
 #endif

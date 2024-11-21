@@ -6,7 +6,7 @@
 /*   By: szhong <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:30:05 by szhong            #+#    #+#             */
-/*   Updated: 2024/09/12 21:10:57 by szhong           ###   ########.fr       */
+/*   Updated: 2024/11/21 14:25:00 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -16,21 +16,21 @@
 	//i + 1, current_time - table->start_dinning, 
 	//table->philos[i].last_meal_time - table->start_dinning,
 	//time_since_last_meal);
-static int	check_philosopher_death(t_table *table, int i)
+int	check_philosopher_death(t_table *table, int i)
 {
-    long	current_time;
-    long    time_since_last_meal;
+	long	current_time;
+	long	time_since_last_meal;
 
-    current_time = get_time();
-    mutex_helper(&table->meal_mutex, LOCK);
-    time_since_last_meal = current_time - table->philos[i].last_meal_time;
-    mutex_helper(&table->meal_mutex, UNLOCK);
-    if (time_since_last_meal > (table->time_to_die + 1.25))
-        return (1);
-    return (0);
+	current_time = get_time();
+	mutex_helper(&table->meal_mutex, LOCK);
+	time_since_last_meal = current_time - table->philos[i].last_meal_time;
+	mutex_helper(&table->meal_mutex, UNLOCK);
+	if (time_since_last_meal > (table->time_to_die + 1.25))
+		return (1);
+	return (0);
 }
 
-static int	check_all_philosophers_full(t_table *table)
+int	check_all_philosophers_full(t_table *table)
 {
 	int	i;
 
@@ -44,39 +44,6 @@ static int	check_all_philosophers_full(t_table *table)
 		i++;
 	}
 	return (1);
-}
-
-void	*monitor(void *arg)
-{
-	int		i;
-	t_table	*table;
-
-	table = (t_table *)arg;
-	while (1)
-	{
-		i = 0;
-		while (i < table->philo_nbr)
-		{
-			if (check_philosopher_death(table, i))
-			{
-				mutex_helper(&table->end_dinning_mutex, LOCK);
-				table->end_dinning = true;
-				mutex_helper(&table->end_dinning_mutex, UNLOCK);
-				print_status(table, i + 1, "died");
-				return (NULL);
-			}
-			i++;
-		}
-		if (check_all_philosophers_full(table))
-		{
-			mutex_helper(&table->end_dinning_mutex, LOCK);
-				table->end_dinning = true;
-				printf(M"All philosophers have eaten enough.\n"DF);
-				mutex_helper(&table->end_dinning_mutex, UNLOCK);
-				return (NULL);
-		}
-		usleep(100);
-	}
 }
 
 void	destroy_all(const char *str, t_table *table)

@@ -41,7 +41,7 @@ void	release_forks(t_philo *philo)
 		mutex_helper(&philo->second_fork->fork, UNLOCK);
 		mutex_helper(&philo->first_fork->fork, UNLOCK);
 	}
-	return ;	
+	return ;
 }
 
 void	fork_distrib(t_philo *philo, t_mutex_code code )
@@ -50,5 +50,5 @@ void	fork_distrib(t_philo *philo, t_mutex_code code )
 		pick_forks(philo);
 	else if (code == UNLOCK)
 		release_forks(philo);
-	return ;	
+	return ;
 }
