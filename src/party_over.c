@@ -25,8 +25,7 @@ static int	check_philosopher_death(t_table *table, int i)
     mutex_helper(&table->meal_mutex, LOCK);
     time_since_last_meal = current_time - table->philos[i].last_meal_time;
     mutex_helper(&table->meal_mutex, UNLOCK);
-
-    if (time_since_last_meal > table->time_to_die)
+    if (time_since_last_meal > (table->time_to_die + 1.25))
         return (1);
     return (0);
 }

@@ -37,6 +37,7 @@ static void	philo_init(t_table *table)
 		philo = table->philos + i;
 		philo->philo_id = i + 1;
 		philo->all_full = false;
+		philo->is_eating = false;
 		philo->meals_counter = 0;
 		philo->table = table;
 		assign_forks(philo, table->forks, i);

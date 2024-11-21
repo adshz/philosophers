@@ -49,8 +49,8 @@ int	eat(t_philo *philo)
 	print_status(philo->table, philo->philo_id, "has taken a fork");
 	start_eating_time = get_time();
 	print_status(philo->table, philo->philo_id, "is eating");
-	philo_sleep(philo, philo->table->time_to_eat);
 	update_meal_status(philo, start_eating_time);
+	philo_sleep(philo, philo->table->time_to_eat);
 	fork_distrib(philo, UNLOCK);
 	return (0);
 }
