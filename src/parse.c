@@ -6,7 +6,7 @@
 /*   By: szhong <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 18:57:36 by szhong            #+#    #+#             */
-/*   Updated: 2024/09/12 16:36:41 by szhong           ###   ########.fr       */
+/*   Updated: 2024/11/21 17:09:46 by szhong           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -46,11 +46,17 @@ void	parse_data(t_table *table, char *argv[])
 	table->time_to_eat = ft_atol(argv[3]);
 	table->time_to_sleep = ft_atol(argv[4]);
 	if (table->philo_nbr <= 0 || table->philo_nbr > 200)
+	{
+		free(table);
 		error_handler("Invalid number of philosophers"\
 				Y"\nRange of philosophers: 0 < x < 200\n"DF);
+	}
 	if (table->time_to_die < 60 || \
 			table->time_to_eat < 60 || table->time_to_eat < 60)
+	{
+		free(table);
 		error_handler("Time is longer than 60ms");
+	}
 	if (argv[5])
 	{
 		table->num_meals_per_philo = ft_atol(argv[5]);
