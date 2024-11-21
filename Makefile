@@ -6,7 +6,7 @@
 #    By: szhong <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/30 14:21:37 by szhong            #+#    #+#              #
-#    Updated: 2024/09/12 16:24:29 by szhong           ###   ########.fr        #
+#    Updated: 2024/11/21 11:53:19 by szhong           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 DF :=	\033[0m
@@ -28,7 +28,8 @@ SRCS		:=	\
 				dinning.c \
 				init.c \
 				party_over.c \
-				action.c
+				action.c \
+				forks.c
 
 OBJS		:= $(addprefix $(OBJ_DIR)/, $(patsubst %.c, %.o, $(SRCS)))
 CC			:= cc

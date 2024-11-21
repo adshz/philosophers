@@ -73,6 +73,15 @@ void	mutex_helper(t_mutex *mutex, t_mutex_code code)
 			Y"Use CREATE or JOIN or DETACT"DF);
 }
 
+void	update_meal_status(t_philo *philo)
+{
+	mutex_helper(&philo->table->end_dinning_mutex, LOCK);
+	philo->last_meal_time = get_time();
+	philo->meals_counter++;
+	mutex_helper(&philo->table->end_dinning_mutex, UNLOCK);
+	return ;
+}
+
 void	error_handler(const char *error_msg)
 {
 	printf(R"%s\n"DF, error_msg);
